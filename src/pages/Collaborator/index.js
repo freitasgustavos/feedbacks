@@ -12,7 +12,7 @@ import {
 import { useHistory, useParams } from "react-router-dom";
 import { LikeOutlined, LoadingOutlined } from "@ant-design/icons";
 import { FiTrash, FiArrowLeft } from "react-icons/fi";
-import { format, formatDistance } from "date-fns";
+import { format, formatDistance, addMinutes, isAfter } from "date-fns";
 import pt from "date-fns/locale/pt-BR";
 
 import api from "../../services/api";
@@ -165,7 +165,12 @@ export default function Collaborator() {
                     style={{ cursor: "pointer" }}
                     onClick={() => handleDelete(item)}
                   >
-                    <IconText icon={FiTrash} key="list-vertical-like-o" />
+                    {isAfter(
+                      addMinutes(getUTCDate(item.createdAt), 5),
+                      getUTCDate()
+                    ) ? (
+                      <IconText icon={FiTrash} key="list-vertical-like-o" />
+                    ) : null}
                   </div>,
                 ]}
               >
