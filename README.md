@@ -1,9 +1,3 @@
-<p align="center">
-  <a href="#pre-requisitos">Pré-requisitos</a> • 
- <a href="#tecnologias">Tecnologias</a> • 
- <a href="#autor">Autor</a>
-</p>
-
 ### Pré-requisitos
 
 Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
