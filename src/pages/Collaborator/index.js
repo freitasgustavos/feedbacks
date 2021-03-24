@@ -12,6 +12,8 @@ import {
 import { useHistory, useParams } from "react-router-dom";
 import { LikeOutlined, LoadingOutlined } from "@ant-design/icons";
 import { FiTrash, FiArrowLeft } from "react-icons/fi";
+import { format, formatDistance } from "date-fns";
+import pt from "date-fns/locale/pt-BR";
 
 import api from "../../services/api";
 import Comments from "../../components/Comments";
@@ -24,6 +26,19 @@ const IconText = ({ icon, text }) => (
     {text}
   </Space>
 );
+
+const getUTCDate = (dateString = Date.now()) => {
+  const date = new Date(dateString);
+
+  return new Date(
+    date.getUTCFullYear(),
+    date.getUTCMonth(),
+    date.getUTCDate(),
+    date.getUTCHours(),
+    date.getUTCMinutes(),
+    date.getUTCSeconds()
+  );
+};
 
 export default function Collaborator() {
   const { id } = useParams();
@@ -60,7 +75,7 @@ export default function Collaborator() {
   }, [loadCollaborator]);
 
   useEffect(() => {
-    loadFeedbacks();
+    loadFeedbacks(true);
   }, [loadFeedbacks]);
 
   const handleLike = useCallback(
@@ -114,7 +129,7 @@ export default function Collaborator() {
               {collaborator.company}
             </Descriptions.Item>
             <Descriptions.Item label="Criado em" span={3}>
-              {collaborator.createdAt}
+              {format(getUTCDate(collaborator.createdAt), "d/MM/yyyy")}
             </Descriptions.Item>
           </Descriptions>
         </Spin>
@@ -157,7 +172,14 @@ export default function Collaborator() {
                 <List.Item.Meta
                   avatar={<Avatar src={item.avatar} />}
                   title={item.message}
-                  description={item.createdAt}
+                  description={formatDistance(
+                    getUTCDate(item.createdAt),
+                    getUTCDate(),
+                    {
+                      locale: pt,
+                      includeSeconds: true,
+                    }
+                  )}
                 />
                 {item.content}
               </List.Item>

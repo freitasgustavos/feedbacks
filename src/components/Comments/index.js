@@ -46,6 +46,7 @@ export default function Comments({ item, loadFeedbacks }) {
         collaboratorId: id,
         message: text,
         like: 0,
+        createdAt: new Date(),
       });
       loadFeedbacks();
       setText("");
